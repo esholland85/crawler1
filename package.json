@@ -1,0 +1,26 @@
+{
+  "name": "crawler1",
+  "version": "1.0.0",
+  "description": "Simple web crawler, tests internal link value",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esholland85/crawler1.git"
+  },
+  "author": "ESH",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/esholland85/crawler1/issues"
+  },
+  "homepage": "https://github.com/esholland85/crawler1#readme",
+  "devDependencies": {
+    "jest": "^29.3.1"
+  },
+  "dependencies": {
+    "jsdom": "^20.0.3"
+  }
+}
