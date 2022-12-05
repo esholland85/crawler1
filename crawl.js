@@ -3,15 +3,6 @@
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
-let myDOM = null;
-const testHTML = 
-(`<html>
-    <body>
-        <a href="https://blog.boot.dev"><span>Go to Boot.dev</span></a>
-        <a href="https://google.com"><span>Go to Boot.dev</span></a>
-    </body>
-</html>`)
-
 function normalizeURL (urlString) {
     let myURL = null;
 
@@ -36,24 +27,45 @@ function normalizeURL (urlString) {
     return result;
 }
 
-//not using baseURL; double check intended use case
+//create and return a list of all links on the page
 async function getURLsFromHTML(targetURL, baseURL){
     const cleanURL = normalizeURL(targetURL);
-    myDOM = await JSDOM.fromURL(cleanURL);
-    //myDOM = new JSDOM(testHTML);
+    let myDOM = await JSDOM.fromURL(cleanURL);
+
     myAnchors = myDOM.window.document.querySelectorAll('a');
     myDOM.window.close();
 
     const myLinks = [];
     for(let i = 0; i < myAnchors.length;i++){
-        myLinks.push(myAnchors[i].href);
+        myLinks.push(myAnchors[i].href, baseURL);
     }
     return myLinks;
+}
+
+async function crawlPage(targetURL){
+    try{
+        const page = await fetch(targetURL);
+        if(page.status > 399){
+            console.log('Page not found');
+            return
+        }
+        const contentType = page.headers.get('content-type');
+        if(!contentType.includes('text/html')){
+            console.log(`Looking for HTML, found: ${contentType}`);
+            return
+        }
+        //console.log(await page.text());
+        return(await page.text());
+    }
+    catch(error){
+        console.log(error.message);
+    }
 }
 
 //getURLsFromHTML('https://blog.boot.dev', 'https://blog.boot.dev').then(links => console.log(links));
 
 module.exports =  {
     normalizeURL,
-    getURLsFromHTML
+    getURLsFromHTML,
+    crawlPage
 }
