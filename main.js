@@ -14,7 +14,7 @@ function main(){
 
     console.log(`Crawling: ${baseURL}`);
     //getURLsFromHTML(baseURL).then(links => console.log(links));
-    crawlPage(baseURL).then(response  => console.log(response));
+    crawlPage(baseURL, baseURL, {}).then(response  => console.log(response));
 }
 
 main()
