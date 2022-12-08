@@ -1,5 +1,6 @@
 const {getURLsFromHTML} = require('./crawl.js');
 const {crawlPage} = require('./crawl.js');
+const {printReport} = require('./report.js');
 
 function main(){
     if(process.argv.length < 3){
@@ -14,7 +15,7 @@ function main(){
 
     console.log(`Crawling: ${baseURL}`);
     //getURLsFromHTML(baseURL).then(links => console.log(links));
-    crawlPage(baseURL, baseURL, {}).then(response  => console.log(response));
+    crawlPage(baseURL, baseURL, {}).then(response  => printReport(response));
 }
 
 main()
